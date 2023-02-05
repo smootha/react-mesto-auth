@@ -1,0 +1,25 @@
+.close-button {
+  background: none;
+  background-image: url('../../images/Close_Icon.svg');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 32px;
+  height: 32px;
+  -webkit-transition: right .5s, top .5s, width .5s;
+  -o-transition: right .5s, top .5s, width .5s;
+  transition: right .5s, top .5s, width .5s;
+}
+
+@media screen and (max-width: 540px) {
+  .close-button {
+    width: 20px;
+    height: 20px;
+    top: -36px;
+    right: 0px;
+  }
+}

@@ -1,0 +1,16 @@
+.cards {
+  display: -ms-grid;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 282px);
+  grid-auto-rows: 361px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-column-gap: 1.8%;
+     -moz-column-gap: 1.8%;
+          column-gap: 1.8%;
+  row-gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+}

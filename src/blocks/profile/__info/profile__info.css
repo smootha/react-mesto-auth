@@ -1,0 +1,31 @@
+.profile__info {
+  margin-top: 22px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: fit-content(450px) 18px fit-content(50px);
+  grid-template-columns: fit-content(450px) fit-content(50px);
+  -ms-grid-rows: 49px 6px 22px;
+  grid-template-rows: 49px 22px;
+      grid-template-areas: 'name edit-button'
+                       'comment comment';
+  row-gap: 6px;
+  -webkit-column-gap: 18px;
+     -moz-column-gap: 18px;
+          column-gap: 18px;
+}
+
+@media screen and (max-width: 806px) {
+  .profile__info {
+            grid-template-areas: '. name edit-button'
+                         'comment comment comment';
+    -ms-grid-columns: 18px 10px 1fr 10px 18px;
+    grid-template-columns: 18px 1fr 18px;
+    -ms-grid-rows: 32px 9px 18px;
+    grid-template-rows: 32px 18px;
+    row-gap: 9px;
+    -webkit-column-gap: 10px;
+       -moz-column-gap: 10px;
+            column-gap: 10px;
+    margin-top: 28px;
+  }
+}

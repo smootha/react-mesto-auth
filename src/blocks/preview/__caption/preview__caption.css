@@ -1,0 +1,9 @@
+.preview__caption {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.21;
+  position: absolute;
+  bottom: -22px;
+  left: 0;
+  color: #fff;
+}

@@ -1,0 +1,24 @@
+.profile__edit-button {
+  grid-area: edit-button;
+  width: 24px;
+  height: 24px;
+  background: none;
+  background-image: url('../../../images/pancil.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #fff;
+  -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column-align: end;
+      justify-self: end;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+@media screen and (max-width: 806px) {
+  .profile__edit-button {
+    background-size: 8px;
+    width: 18px;
+    height: 18px;
+  }
+}

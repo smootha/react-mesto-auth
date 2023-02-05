@@ -1,0 +1,9 @@
+.form__error_avatar-input {
+  top: 142px;
+}
+
+@media screen and (max-width: 470px) {
+  .form__error_avatar-input {
+    top: 155px;
+  }
+}
