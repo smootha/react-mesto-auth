@@ -1,3 +1,12 @@
+import React, { useState, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { api } from '../utils/api';
+import { logError } from '../utils/utils';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import ProtectRouteElement from './ProtectedRoute';
+import Register from './Register';
+import Login from '../../../react-mesto-auth/src/components/Login';
+import InfoTooltip from './InfoTooltip';
 import PopupWithForm from './PopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
@@ -6,12 +15,10 @@ import ImagePopup from './ImagePopup';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import React, { useState, useEffect } from 'react';
-import { api } from '../utils/api';
-import { logError } from '../utils/utils';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
   // Хуки для определения пользователя и карточек
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -146,15 +153,35 @@ function App() {
           isOpen={isImagePopupOpen}
         />
         <Header />
-        <Main
-          cards={cards}
-          onEditProfile={handleEditProfileClick}
-          onEditAvatar={handleEditAvatarClick}
-          onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-        />
+        <Routes>
+          <Route
+            path="/sign-up"
+            element={<Register />}
+          />
+          <Route
+            path="/sign-in"
+            element={<Login />}
+          />
+          <Route
+            path="/"
+            element={
+              <ProtectRouteElement
+                element={
+                  <Main
+                    cards={cards}
+                    onEditProfile={handleEditProfileClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onCardClick={handleCardClick}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleCardDelete}
+                  />
+                }
+                loggedIn={loggedIn}
+              />
+            }
+          />
+        </Routes>
         <Footer />
       </div>
     </CurrentUserContext.Provider>
