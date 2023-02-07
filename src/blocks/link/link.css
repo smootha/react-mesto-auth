@@ -1,0 +1,12 @@
+.link {
+  text-decoration: none;
+  transition: opacity 200ms;
+}
+
+.link:hover {
+  opacity: .6;
+}
+
+.link:visited {
+  color: #fff;
+}

@@ -6,7 +6,6 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import ProtectRouteElement from './ProtectedRoute';
 import Register from './Register';
 import Login from '../../../react-mesto-auth/src/components/Login';
-import InfoTooltip from './InfoTooltip';
 import PopupWithForm from './PopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
@@ -23,7 +22,9 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   /* Хуки для открытия/закрытия попапов
-  Попап изменения инфо профиля */
+  Попап статуса регистрации */
+  const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false);
+  //Попап изменения инфо профиля
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isEditProfileLoading, setEditProfileLoading] =useState(false);
   // Попап изменения аватара
@@ -35,6 +36,10 @@ function App() {
   // Попап полноэкранного открытия выбранной карточки
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
+  // Функции для статуса регистрации
+  function handleRegisterSubmit() {
+    setInfoTooltipOpen(true);
+  }
   // Функции для настроек профиля
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
@@ -96,6 +101,7 @@ function App() {
     .catch((err) => logError(err));
   }
   function closeAllPopups() {
+    setInfoTooltipOpen(false);
     setAvatarPopupOpen(false);
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
@@ -156,7 +162,11 @@ function App() {
         <Routes>
           <Route
             path="/sign-up"
-            element={<Register />}
+            element={<Register
+                      isOpen={isInfoTooltipOpen}
+                      onClose={closeAllPopups}
+                      onRegSubmit={handleRegisterSubmit}
+                    />}
           />
           <Route
             path="/sign-in"

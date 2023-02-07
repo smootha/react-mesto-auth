@@ -1,0 +1,10 @@
+.user-form__to-sign-up {
+  display: flex;
+  justify-content: center;
+  margin: 1px 0 0;
+  align-items: center;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.21;
+  column-gap: 3px;
+}

@@ -1,0 +1,27 @@
+.user-form__submit {
+  width: 100%;
+  background-color: #fff;
+  color: #000;
+  font-size: 18px;
+  line-height: 1.21;
+  margin-top: 216px;
+  border-radius: 2px;
+  -webkit-transition: opacity .3s, color .3s, background-color .3s;
+  -o-transition: opacity .3s, color .3s, background-color .3s;
+  transition: opacity .3s, color .3s, background-color .3s;
+  border: none;
+  padding: 14px;
+}
+
+.user-form__submit:hover {
+  opacity: .85;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 520px) {
+  .user-form__submit {
+    padding: 15px;
+    margin-top: 45px;
+    font-size: 14px;
+  }
+}

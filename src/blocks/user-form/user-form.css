@@ -1,0 +1,11 @@
+.user-form {
+  margin: 0 auto;
+  width: 430px;
+}
+
+@media screen and (max-width: 470px) {
+  .user-form {
+    width: calc(100vw - 38px);
+    min-width: 282px;
+  }
+}
