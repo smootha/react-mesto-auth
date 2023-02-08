@@ -26,9 +26,9 @@ function InfoTooltip(props) {
     <section className={`popup info-tool-tip ${props.isOpen ? 'popup_opened' : ''}`} onClick={handleOverlayClick}>
       <div className="popup__container">
       <button className="popup__close-button close-button button" type="button" onClick={props.onClose}></button>
-      <img className="popup__reg-status" src={props.status ? regOkImg : regFailImg} alt="Статус регистрации" />
+      <img className="popup__reg-status" src={props.regStatus ? regOkImg : regFailImg} alt="Статус регистрации" />
         <h2 className="popup__reg-title">{
-          props.status
+          props.regStatus
             ? "Вы успешно зарегистрировались!"
             : "Что-то пошло не так! Попробуйте ещё раз."
         }</h2>

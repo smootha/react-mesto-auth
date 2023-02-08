@@ -1,25 +1,29 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InfoTooltip from "./InfoTooltip";
 
 function Register(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formValue, setFormValue] = useState({
+    email: '',
+    password: ''
+  });
 
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
+  function handleChange(e) {
+    const {name, value} = e.target;
+    setFormValue({
+      ...formValue,
+      [name]: value
+    });
   }
-  function handlePasswordChange(e) {
-    setPassword(e.target.value);
-  }
+
   function handleRegisterSubmit(e) {
     e.preventDefault();
-    props.onRegSubmit();
+    props.onRegSubmit(formValue);
   }
 
   return(
     <>
-      <InfoTooltip isOpen={props.isOpen} onClose={props.onClose} />
+      <InfoTooltip isOpen={props.isOpen} onClose={props.onClose} regStatus={props.regStatus} />
         <section className="user-form register">
           <div className="user-form__container">
             <h2 className="user-form__title">Регистрация</h2>
@@ -29,8 +33,8 @@ function Register(props) {
                 className="form__input_data_email user-form__input"
                 type="email"
                 name="email"
-                onChange={handleEmailChange}
-                value={email}
+                onChange={handleChange}
+                value={formValue.email}
                 placeholder="Email"
                 required
               />
@@ -39,8 +43,8 @@ function Register(props) {
                 className="form__input_data_password user-form__input"
                 type="password"
                 name="password"
-                onChange={handlePasswordChange}
-                value={password}
+                onChange={handleChange}
+                value={formValue.password}
                 placeholder="Пароль"
                 required
               />

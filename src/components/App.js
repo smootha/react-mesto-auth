@@ -14,6 +14,7 @@ import ImagePopup from './ImagePopup';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
+import { register } from './auth';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
   /* Хуки для открытия/закрытия попапов
   Попап статуса регистрации */
   const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false);
+  const [regStatus, setRegStatus] = useState(false);
   //Попап изменения инфо профиля
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isEditProfileLoading, setEditProfileLoading] =useState(false);
@@ -37,8 +39,8 @@ function App() {
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   // Функции для статуса регистрации
-  function handleRegisterSubmit() {
-    setInfoTooltipOpen(true);
+  function handleRegisterSubmit(regData) {
+    register(regData, setRegStatus, setInfoTooltipOpen);
   }
   // Функции для настроек профиля
   function handleEditProfileClick() {
@@ -166,6 +168,7 @@ function App() {
                       isOpen={isInfoTooltipOpen}
                       onClose={closeAllPopups}
                       onRegSubmit={handleRegisterSubmit}
+                      regStatus={regStatus}
                     />}
           />
           <Route
