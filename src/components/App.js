@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { api } from '../utils/api';
 import { logError } from '../utils/utils';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
-import ProtectRouteElement from './ProtectedRoute';
+import ProtectedRouteElement from './ProtectedRoute';
 import Register from './Register';
 import Login from '../../../react-mesto-auth/src/components/Login';
 import PopupWithForm from './PopupWithForm';
@@ -14,11 +14,13 @@ import ImagePopup from './ImagePopup';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import { register } from './auth';
+import { register, getTokenData } from './auth';
 
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  const navigate = useNavigate();
   // Хуки для определения пользователя и карточек
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -38,9 +40,33 @@ function App() {
   // Попап полноэкранного открытия выбранной карточки
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
-  // Функции для статуса регистрации
+  // Фуниция проверки токена
+  function checkToken() {
+    if(localStorage.getItem('token')){
+      const token = localStorage.getItem('token');
+      getTokenData(token)
+      .then((res) => {
+
+        if(res) {
+          setUserEmail(res.data.email);
+          handleLogin();
+          navigate('/', {replace: true});
+        }
+      })
+      .catch(err => logError(err));
+    }
+  }
+  // Функции для регистрации/логина
   function handleRegisterSubmit(regData) {
     register(regData, setRegStatus, setInfoTooltipOpen);
+  }
+  function handleLogin() {
+    setLoggedIn(true);
+  }
+  function handleLogout() {
+    localStorage.removeItem('token');
+    navigate('/sign-in', { replace: true });
+    setLoggedIn(false);
   }
   // Функции для настроек профиля
   function handleEditProfileClick() {
@@ -122,6 +148,10 @@ function App() {
         logError(err);
       });
   }, []);
+// Проверка токена
+  useEffect(() => {
+    checkToken();
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -160,7 +190,10 @@ function App() {
           onClose={closeAllPopups}
           isOpen={isImagePopupOpen}
         />
-        <Header />
+        <Header
+          loggedIn={loggedIn}
+          userEmail={userEmail}
+          onLogout={handleLogout}/>
         <Routes>
           <Route
             path="/sign-up"
@@ -173,25 +206,33 @@ function App() {
           />
           <Route
             path="/sign-in"
-            element={<Login />}
+            element={<Login
+                      emailAutoFill={userEmail}
+                      loggedIn={loggedIn}
+                      handleLogin={handleLogin}
+                    />}
           />
           <Route
             path="/"
             element={
-              <ProtectRouteElement
-                element={
-                  <Main
-                    cards={cards}
-                    onEditProfile={handleEditProfileClick}
-                    onEditAvatar={handleEditAvatarClick}
-                    onAddPlace={handleAddPlaceClick}
-                    onCardClick={handleCardClick}
-                    onCardLike={handleCardLike}
-                    onCardDelete={handleCardDelete}
-                  />
-                }
-                loggedIn={loggedIn}
-              />
+              <ProtectedRouteElement loggedIn={loggedIn}>
+                <Main
+                  cards={cards}
+                  onEditProfile={handleEditProfileClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onCardClick={handleCardClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                />
+              </ProtectedRouteElement>
+            }
+          />
+          <Route
+            path="*"
+            element={loggedIn
+              ? <Navigate to="/" />
+              : <Navigate to="/sign-in" />
             }
           />
         </Routes>

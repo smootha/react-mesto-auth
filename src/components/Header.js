@@ -1,6 +1,13 @@
-import { Link, Routes,Route } from "react-router-dom";
+import { Link, Routes, Route } from "react-router-dom";
 
-function Header() {
+function Header({ onLogout, userEmail }) {
+
+
+
+  function handleLogout() {
+    onLogout();
+  }
+
   return (
     <header className="header">
       <div className="header__logo"></div>
@@ -20,9 +27,9 @@ function Header() {
         <Route
           path="/"
           element={
-            <div>
-              <p>Будет емайл</p>
-              <Link to="/sign-in" className="link header__link">Выйти</Link>
+            <div className="header__button-container">
+              <p className="header__email">{userEmail}</p>
+              <Link to="/sign-in" className="link header__link" onClick={handleLogout}>Выйти</Link>
             </div>
           }
         />

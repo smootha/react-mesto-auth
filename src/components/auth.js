@@ -29,21 +29,33 @@ export function register(regData, setRegStatus, setInfoTooltipOpen) {
     .finally(() => setInfoTooltipOpen(true));
 }
 
-export function authirize(email, password) {
+export function authorize(userData) {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: {
-        'password': password,
-        'email': email
+    body: JSON.stringify(userData)
+  })
+  .then(res => res.json())
+  .then((data) => {
+    if(data.token) {
+      localStorage.setItem('token', data.token);
+      return data;
     }
   })
-  .then(res => {})
   .catch(err => console.log(err));
 }
 
-export function checkToken(token) {
-
+export function getTokenData(token) {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  })
+  .then(res => res.json())
+  .then(data => data)
+  .catch(err => console.log(err));
 }

@@ -14,6 +14,7 @@ function Main({
   const currentUser = React.useContext(CurrentUserContext);
   const cardsList = cards.map((card) => (
     <Card
+      key={card._id}
       card={card}
       onCardClick={onCardClick}
       onCardLike={onCardLike}
