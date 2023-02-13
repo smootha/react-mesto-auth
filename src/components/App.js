@@ -18,9 +18,11 @@ import { register, getTokenData } from './auth';
 
 
 function App() {
+
+  const navigate = useNavigate();
+
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
-  const navigate = useNavigate();
   // Хуки для определения пользователя и карточек
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -40,13 +42,15 @@ function App() {
   // Попап полноэкранного открытия выбранной карточки
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
+  // Хук состояния открытия меню в шапке
+  const [isMenuOpen, setMenuOpen] = useState(false);
+
   // Фуниция проверки токена
   function checkToken() {
     if(localStorage.getItem('token')){
       const token = localStorage.getItem('token');
       getTokenData(token)
       .then((res) => {
-
         if(res) {
           setUserEmail(res.data.email);
           handleLogin();
@@ -55,6 +59,10 @@ function App() {
       })
       .catch(err => logError(err));
     }
+  }
+  //Функция открытия меню в мобильной версии
+  function handleOpenMenu() {
+    setMenuOpen(!isMenuOpen);
   }
   // Функции для регистрации/логина
   function handleRegisterSubmit(regData) {
@@ -193,7 +201,10 @@ function App() {
         <Header
           loggedIn={loggedIn}
           userEmail={userEmail}
-          onLogout={handleLogout}/>
+          onLogout={handleLogout}
+          isMenuOpen={isMenuOpen}
+          setMenuOpen={handleOpenMenu}
+        />
         <Routes>
           <Route
             path="/sign-up"

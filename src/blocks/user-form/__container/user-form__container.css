@@ -1,13 +1,12 @@
 .user-form__container {
-    padding: 60px 36px 37px;
+
     -webkit-box-sizing: border-box;
             box-sizing: border-box;
   }
 
   @media screen and (max-width: 470px) {
     .user-form__container {
-      height: 322px;
-      padding: 27px 22px;
+      padding-top: 40px;
     }
   }
 

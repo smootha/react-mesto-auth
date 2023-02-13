@@ -2,3 +2,16 @@
   display: flex;
   flex-direction: row;
 }
+
+@media screen and (max-width: 768px) {
+  .header__button-container {
+    font-size: 18px;
+    padding-bottom: 40px;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 18px;
+    transition: margin-top .5s;
+    margin-top: -151px;
+    visibility: hidden;
+  }
+}

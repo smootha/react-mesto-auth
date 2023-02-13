@@ -5,7 +5,7 @@
 
 @media screen and (max-width: 470px) {
   .user-form {
-    width: calc(100vw - 38px);
-    min-width: 282px;
+    width: calc(100vw - 60px);
+    min-width: 260px;
   }
 }

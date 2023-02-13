@@ -5,16 +5,28 @@
   margin: 0 auto;
   padding: 45px 0 41px;
   max-width: 880px;
-  width: 100%;
   border-bottom: 1px solid rgba(54, 54, 54, .7);
   -webkit-transition: padding .5s;
   -o-transition: padding .5s;
   transition: padding .5s;
+  font-size: 18px;
+}
+
+@media screen and (max-width: 927px) {
+  .header {
+    padding: 45px calc(927px - 100vw) 41px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .header {
+    padding: 45px 27px 41px;
+  }
 }
 
 @media screen and (max-width: 768px) {
   .header {
-    padding-top: 28px;
-    padding-bottom: 32px;
+    padding: 28px 30px 32px;
+    font-size: 14px;
   }
 }

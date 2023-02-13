@@ -2,3 +2,9 @@
   margin-top: 52px;
   padding-bottom: 7px;
 }
+
+@media screen and (max-width: 768px) {
+  .form__input_data_email {
+    margin-top: 40px;
+  }
+}

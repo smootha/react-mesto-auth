@@ -1,6 +1,6 @@
 import { Link, Routes, Route } from "react-router-dom";
 
-function Header({ onLogout, userEmail }) {
+function Header({ loggedIn, onLogout, userEmail, isMenuOpen, setMenuOpen }) {
 
 
 
@@ -9,8 +9,13 @@ function Header({ onLogout, userEmail }) {
   }
 
   return (
-    <header className="header">
-      <div className="header__logo"></div>
+    <header className={`header ${loggedIn ? 'header_logged-in' : ''}`}>
+      <div className={loggedIn ? 'header__icons-container' : ''}>
+        <div className="header__logo"></div>
+        {loggedIn &&
+         <div className={`button header__burger-menu ${isMenuOpen ? 'header__burger-menu_opened' : ''}`} onClick={setMenuOpen}></div>
+         }
+      </div>
       <Routes>
         <Route
           path="/sign-up"
@@ -27,7 +32,7 @@ function Header({ onLogout, userEmail }) {
         <Route
           path="/"
           element={
-            <div className="header__button-container">
+            <div className={`header__button-container ${isMenuOpen ? 'header__button-container_opened' : ''}`}>
               <p className="header__email">{userEmail}</p>
               <Link to="/sign-in" className="link header__link" onClick={handleLogout}>Выйти</Link>
             </div>

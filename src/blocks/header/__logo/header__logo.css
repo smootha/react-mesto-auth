@@ -10,20 +10,6 @@
   transition: width .5s, height .5s;
 }
 
-/* Для плавного появления маржина */
-@media screen and (max-width: 927px) {
-  .header__logo {
-    margin-left: calc(927px - 100vw);
-  }
-}
-
-@media screen and (max-width: 900px) {
-  .header__logo {
-    margin-left: 27px;
-  }
-}
-
-
 @media screen and (max-width: 768px) {
   .header__logo {
     width: 104px;
