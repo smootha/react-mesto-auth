@@ -1,3 +1,5 @@
+import { logError } from "../utils/utils";
+
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
 export function register(regData, setRegStatus, setInfoTooltipOpen) {
@@ -24,7 +26,7 @@ export function register(regData, setRegStatus, setInfoTooltipOpen) {
     })
     .catch(err => {
       setRegStatus(false);
-      console.log(err);
+      logError(err);
     })
     .finally(() => setInfoTooltipOpen(true));
 }
@@ -44,7 +46,7 @@ export function authorize(userData) {
       return data;
     }
   })
-  .catch(err => console.log(err));
+  .catch(err => logError(err));
 }
 
 export function getTokenData(token) {
@@ -57,5 +59,5 @@ export function getTokenData(token) {
   })
   .then(res => res.json())
   .then(data => data)
-  .catch(err => console.log(err));
+  .catch(err => logError(err));
 }

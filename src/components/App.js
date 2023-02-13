@@ -18,9 +18,8 @@ import { register, getTokenData } from './auth';
 
 
 function App() {
-
   const navigate = useNavigate();
-
+  // Хуки для титульных форм
   const [loggedIn, setLoggedIn] = useState(false);
   const [userEmail, setUserEmail] = useState('');
   // Хуки для определения пользователя и карточек
@@ -42,7 +41,7 @@ function App() {
   // Попап полноэкранного открытия выбранной карточки
   const [isImagePopupOpen, setImagePopupOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
-  // Хук состояния открытия меню в шапке
+  // Хук состояния открытия меню в шапке сайта
   const [isMenuOpen, setMenuOpen] = useState(false);
 
   // Фуниция проверки токена
@@ -60,7 +59,7 @@ function App() {
       .catch(err => logError(err));
     }
   }
-  //Функция открытия меню в мобильной версии
+  // Функция открытия меню в мобильной версии
   function handleOpenMenu() {
     setMenuOpen(!isMenuOpen);
   }
@@ -68,6 +67,7 @@ function App() {
   function handleRegisterSubmit(regData) {
     register(regData, setRegStatus, setInfoTooltipOpen);
   }
+  // Функции для изменения статуса авторизации
   function handleLogin() {
     setLoggedIn(true);
   }
