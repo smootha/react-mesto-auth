@@ -4,6 +4,7 @@ import { api } from '../utils/api';
 import { logError } from '../utils/utils';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import ProtectedRouteElement from './ProtectedRoute';
+import InfoTooltip from './InfoTooltip';
 import Register from './Register';
 import Login from '../../../react-mesto-auth/src/components/Login';
 import PopupWithForm from './PopupWithForm';
@@ -14,7 +15,7 @@ import ImagePopup from './ImagePopup';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import { register, getTokenData } from './auth';
+import { register, getTokenData } from '../utils/auth';
 
 
 function App() {
@@ -164,6 +165,8 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
+        {/* Popup статуса регистрации */}
+        <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} regStatus={regStatus} />
         {/* Popup смены данных пользователя */}
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
@@ -208,12 +211,7 @@ function App() {
         <Routes>
           <Route
             path="/sign-up"
-            element={<Register
-                      isOpen={isInfoTooltipOpen}
-                      onClose={closeAllPopups}
-                      onRegSubmit={handleRegisterSubmit}
-                      regStatus={regStatus}
-                    />}
+            element={<Register onRegSubmit={handleRegisterSubmit} />}
           />
           <Route
             path="/sign-in"

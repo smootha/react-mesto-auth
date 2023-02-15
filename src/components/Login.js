@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { logError } from "../utils/utils";
-import { authorize } from "./auth";
+import { authorize } from "../utils/auth";
 
 function Login(props) {
   const navigate = useNavigate();

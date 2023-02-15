@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import InfoTooltip from "./InfoTooltip";
 
-function Register(props) {
+function Register({ onRegSubmit }) {
   const [formValue, setFormValue] = useState({
     email: '',
     password: ''
@@ -18,12 +17,11 @@ function Register(props) {
 
   function handleRegisterSubmit(e) {
     e.preventDefault();
-    props.onRegSubmit(formValue);
+    onRegSubmit(formValue);
   }
 
   return(
     <>
-      <InfoTooltip isOpen={props.isOpen} onClose={props.onClose} regStatus={props.regStatus} />
         <section className="user-form register">
           <div className="user-form__container">
             <h2 className="user-form__title">Регистрация</h2>

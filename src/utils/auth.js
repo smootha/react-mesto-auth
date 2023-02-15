@@ -1,4 +1,4 @@
-import { logError } from "../utils/utils";
+import { logError } from "./utils";
 
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
