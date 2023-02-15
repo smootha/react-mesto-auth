@@ -18,6 +18,7 @@ function Register({ onRegSubmit }) {
   function handleRegisterSubmit(e) {
     e.preventDefault();
     onRegSubmit(formValue);
+    e.target.reset();
   }
 
   return(

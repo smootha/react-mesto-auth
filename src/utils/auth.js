@@ -1,8 +1,12 @@
-import { logError } from "./utils";
-
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
-export function register(regData, setRegStatus, setInfoTooltipOpen) {
+function checkResponseStatus(res) {
+  return res.ok
+  ? res.json()
+  : Promise.reject(`Error: ${res.status} ${res.statusText}`);
+}
+
+export function register(regData) {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
     headers: {
@@ -11,26 +15,10 @@ export function register(regData, setRegStatus, setInfoTooltipOpen) {
     },
     body: JSON.stringify(regData)
   })
-    .then((res) => {
-      try{
-        if(res.status === 201) {
-          setRegStatus(true);
-          return res.stringify();
-        }
-      } catch(e) {
-        return (e);
-      }
-    })
-    .then((res) => {
-      return res;
-    })
-    .catch(err => {
-      setRegStatus(false);
-      logError(err);
-    })
-    .finally(() => setInfoTooltipOpen(true));
+    .then(checkResponseStatus);
 }
 
+// Авторизация
 export function authorize(userData) {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
@@ -39,14 +27,7 @@ export function authorize(userData) {
     },
     body: JSON.stringify(userData)
   })
-  .then(res => res.json())
-  .then((data) => {
-    if(data.token) {
-      localStorage.setItem('token', data.token);
-      return data;
-    }
-  })
-  .catch(err => logError(err));
+  .then(checkResponseStatus);
 }
 
 export function getTokenData(token) {
@@ -57,7 +38,5 @@ export function getTokenData(token) {
       'Authorization': `Bearer ${token}`
     }
   })
-  .then(res => res.json())
-  .then(data => data)
-  .catch(err => logError(err));
+  .then(checkResponseStatus);
 }

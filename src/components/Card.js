@@ -39,7 +39,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
             type="button"
             onClick={handleLikeClick}
           />
-          <p className={`cards__like-counter cards__like-counter_visible`}>
+          <p className={`cards__like-counter ${card.likes.length ? 'cards__like-counter_visible' : ''}`}>
             {card.likes.length}
           </p>
         </div>

@@ -6,7 +6,7 @@ import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import ProtectedRouteElement from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
 import Register from './Register';
-import Login from '../../../react-mesto-auth/src/components/Login';
+import Login from './Login';
 import PopupWithForm from './PopupWithForm';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
@@ -15,7 +15,7 @@ import ImagePopup from './ImagePopup';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import { register, getTokenData } from '../utils/auth';
+import { register, authorize,  getTokenData } from '../utils/auth';
 
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
   /* Хуки для открытия/закрытия попапов
   Попап статуса регистрации */
   const [isInfoTooltipOpen, setInfoTooltipOpen] = useState(false);
-  const [regStatus, setRegStatus] = useState(false);
+  const [regStatus, setTooltipStatus] = useState(false);
   //Попап изменения инфо профиля
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
   const [isEditProfileLoading, setEditProfileLoading] =useState(false);
@@ -47,13 +47,14 @@ function App() {
 
   // Фуниция проверки токена
   function checkToken() {
-    if(localStorage.getItem('token')){
-      const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    if(token){
       getTokenData(token)
+      .then(res => res)
       .then((res) => {
         if(res) {
+          setLoggedIn(true);
           setUserEmail(res.data.email);
-          handleLogin();
           navigate('/', {replace: true});
         }
       })
@@ -66,11 +67,35 @@ function App() {
   }
   // Функции для регистрации/логина
   function handleRegisterSubmit(regData) {
-    register(regData, setRegStatus, setInfoTooltipOpen);
+
+    register(regData)
+    .then(() => {
+      setTooltipStatus(true);
+      navigate('/');
+    })
+    .catch(err => {
+      setTooltipStatus(false);
+      logError(err);
+    })
+    .finally(() => setInfoTooltipOpen(true));
   }
   // Функции для изменения статуса авторизации
-  function handleLogin() {
-    setLoggedIn(true);
+  function handleLogin(formValue) {
+    authorize(formValue)
+      .then((data) => {
+        if(data.token) {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('emailOfLastUser', formValue.email);
+          setUserEmail(formValue.email);
+          setLoggedIn(true);
+          navigate('/', {replace: true});
+        }
+      })
+      .catch((err) => {
+        logError(err);
+        setTooltipStatus(false);
+        setInfoTooltipOpen(true);
+      });
   }
   function handleLogout() {
     localStorage.removeItem('token');
@@ -146,6 +171,7 @@ function App() {
   }
 // Стартовая подгрузка данных о пользователе и карточках с сервера
   useEffect(() => {
+    if(loggedIn) {
     api
       .getInitialData()
       .then((data) => {
@@ -156,7 +182,7 @@ function App() {
       .catch((err) => {
         logError(err);
       });
-  }, []);
+  }}, [loggedIn]);
 // Проверка токена
   useEffect(() => {
     checkToken();
@@ -218,7 +244,7 @@ function App() {
             element={<Login
                       emailAutoFill={userEmail}
                       loggedIn={loggedIn}
-                      handleLogin={handleLogin}
+                      onLogin={handleLogin}
                     />}
           />
           <Route

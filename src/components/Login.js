@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { logError } from "../utils/utils";
-import { authorize } from "../utils/auth";
 
 function Login(props) {
-  const navigate = useNavigate();
   const [formValue, setFormValue] = useState({
     email: props.userEmail,
     password: ''
@@ -22,16 +18,8 @@ function Login(props) {
     if(!formValue.email || !formValue.password) {
       return;
     }
-    authorize(formValue)
-      .then((data) => {
-        if(data.token) {
-          props.handleLogin();
-          localStorage.setItem('emailOfLastUser', formValue.email);
-          setFormValue({email: '', password: ''});
-          navigate('/', {replace: true});
-        }
-      })
-      .catch(err => logError(err));
+    props.onLogin(formValue);
+    e.target.reset();
   }
 
   useEffect(() => {
@@ -51,7 +39,7 @@ function Login(props) {
               type="email"
               name="email"
               placeholder="Email"
-              value={formValue.email}
+              value={formValue.email || ''}
               onChange={handleChange}
               required
             />
